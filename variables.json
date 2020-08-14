@@ -1,0 +1,18 @@
+{
+    "vcenter_server":"vCenter FQDN",
+    "username":"vCenter User",
+    "password":"vCenter User Password",
+    "datastore_iso":"ISO Datastore",
+    "datastore_vm":"VM Datastore",
+    "cluster": "Cluster",
+    "folder": "VM Folder",
+    "network": "Port Group",
+    "ssh_username": "root",
+    "ssh_password": "VMware1!",
+    "iso_name": "photon-minimal-3.0-a0f216d.iso",
+    "photon_ovf_template": "photon.xml.template",
+    "version": "1.0.0B",
+    "description": "PhotonOS Minecraft Server Appliance",
+    "vm_name": "Photon-Minecraft-{{isotime \"0601\"}}",
+    "output_directory": "Path/To/Output/Directory"
+}

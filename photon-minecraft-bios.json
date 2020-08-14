@@ -1,0 +1,120 @@
+{
+ "builders": [
+  {
+    "name":                      "PhotonTemplate",
+    "type":                      "vsphere-iso",
+
+    "vcenter_server":            "{{user `vcenter_server`}}",
+    "username":                  "{{user `username`}}",
+    "password":                  "{{user `password`}}",
+    "insecure_connection":       true,
+
+    "vm_name":                   "{{user `vm_name`}}",
+    "vm_version":                15,
+    "guest_os_type":             "vmwarePhoton64Guest",
+    "firmware":                  "bios",
+   
+    "boot_order":                "disk,cdrom",
+    "create_snapshot":           false,
+    "convert_to_template":       false,
+    "boot_wait":                 "3s",
+
+    "cluster":                   "{{user `cluster`}}",
+    "CPUs":                      2,
+    "RAM":                       4096,
+
+    "datastore":                 "{{user `datastore_vm`}}",
+    "folder":                    "{{user `folder`}}",
+    "disk_controller_type":      "pvscsi",
+    "storage": [
+      {
+        "disk_size":             32768,
+        "disk_thin_provisioned": true
+      }
+    ],
+    "iso_paths":                 "[{{user `datastore_iso`}}]/Linux/PhotonOS/photon-minimal-3.0-a0f216d.iso",
+    "remove_cdrom":              true,
+
+    "network_adapters": [
+      {
+        "network":               "{{user `network`}}",
+        "network_card":          "vmxnet3"
+      }
+    ],
+
+    "export": {
+        "force": true,
+        "output_directory": "{{user `output_directory`}}/{{user `vm_name`}}"
+    },
+
+    "notes":                     "Base OS, VMware Tools, patched up to {{isotime \"20060102\"}}",
+
+    
+    "boot_command": [
+        "<esc><wait>",
+        "vmlinuz initrd=initrd.img root=/dev/ram0 loglevel=3 ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/photon-kickstart-bios.json photon.media=cdrom",
+        "<enter>"
+    ],
+
+    "shutdown_command":          "/sbin/shutdown -h now",
+    "shutdown_timeout":          "1000s",
+    "communicator":              "ssh",
+    "ssh_username":              "{{user `ssh_username`}}",
+    "ssh_password":              "{{user `ssh_password`}}"
+  }
+  ],  
+  "provisioners": [
+    {
+      "type": "shell",
+      "scripts": [
+        "{{template_dir}}/scripts/photon-settings.sh",
+        "{{template_dir}}/scripts/photon-minecraftsetup.sh"
+      ]
+    },
+    {
+        "type": "file",
+        "source": "{{template_dir}}/scripts/Get-MinecraftServer.ps1",
+        "destination": "/opt/Minecraft/scripts/Get-MinecraftServer.ps1"
+    },
+    {
+      "type": "file",
+      "source": "{{template_dir}}/scripts/Upgrade-MinecraftService.ps1",
+      "destination": "/opt/Minecraft/scripts/Upgrade-MinecraftService.ps1"
+    },
+    {
+      "type": "file",
+      "source": "{{template_dir}}/files/minecraft.service",
+      "destination": "/etc/systemd/system/minecraft.service"
+    },
+    {
+      "type": "file",
+      "source": "{{template_dir}}/files/rc.local",
+      "destination": "/etc/rc.d/rc.local"
+    },
+    {
+      "type": "file",
+      "source": "{{template_dir}}/files/setup.sh",
+      "destination": "/root/setup.sh"
+    },
+    {
+      "type": "file",
+      "source": "{{template_dir}}/files/photon-minecraftinstall.sh",
+      "destination": "/opt/Minecraft/scripts/photon-minecraftinstall.sh"
+    },
+    {
+        "type": "shell",
+        "scripts": [
+          "{{template_dir}}/scripts/photon-cleanup.sh"
+        ]
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "shell-local",
+      "environment_vars": ["PHOTON_VERSION={{ user `version` }}", "PHOTON_APPLIANCE_NAME={{ user `vm_name` }}", "FINAL_PHOTON_APPLIANCE_NAME={{ user `vm_name` }}_{{user `version`}}", "PHOTON_OVF_TEMPLATE={{ user `photon_ovf_template` }}", "OUTPUT_PATH={{user `output_directory`}}" ],
+      "inline": [
+          "{{template_dir}}/manual/add_ovf_properties.sh"
+      ]
+    }
+  ]
+}

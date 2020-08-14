@@ -1,0 +1,21 @@
+[Unit]
+Description=Minecraft Server
+After=network.target
+
+[Service]
+User=minecraft
+Group=minecraft-admins
+Nice=1
+KillMode=none
+SuccessExitStatus=0 1
+ProtectHome=true
+ProtectSystem=full
+PrivateDevices=true
+NoNewPrivileges=true
+ReadWriteDirectories=/opt/Minecraft
+WorkingDirectory=/opt/Minecraft/bin
+ExecStart=/usr/bin/java -Xmx1536M -Xms512M -jar server.jar nogui
+ExecStop=/opt/Minecraft/tools/mcrcon/mcrcon -H 127.0.0.1 -P RCONPORT -p RCONPASSWORD s$
+
+[Install]
+WantedBy=multi-user.target

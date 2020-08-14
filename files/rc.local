@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [ -e /root/ran_customization ]; then
+    exit
+else
+    /root/setup.sh &> /var/log/photon-customization.log
+    /opt/Minecraft/scripts/photon-minecraftinstall.sh &> /var/log/photon-minecraftinstall.log
+fi

@@ -1,0 +1,64 @@
+    <ProductSection ovf:required="true">
+    <Info>Information about the installed software</Info>
+      <Product>Minecraft Server Appliance</Product>
+      <Vendor>The Virtual Horizon</Vendor>
+      <Version>{{VERSION}}</Version>
+      <ProductUrl>https://github.com/seanpmassey/</ProductUrl>
+      <VendorUrl>https://thevirtualhorizon.com</VendorUrl>
+      <Category>Networking</Category>
+        <Property ovf:key="guestinfo.hostname" ovf:type="string" ovf:userConfigurable="true">
+            <Label>Hostname</Label>
+            <Description>Hostname of system</Description>
+        </Property>
+        <Property ovf:key="guestinfo.ipaddress" ovf:type="string" ovf:userConfigurable="true">
+            <Label>IP Address</Label>
+            <Description>IP Address of the system</Description>
+        </Property>
+        <Property ovf:key="guestinfo.netmask" ovf:type="string" ovf:userConfigurable="true">
+            <Label>Netmask Prefix</Label>
+            <Description>CIDR notation (e.g. 24 for 255.255.255.0, 28 for 255.255.255.240)</Description>
+        </Property>
+        <Property ovf:key="guestinfo.gateway" ovf:type="string" ovf:userConfigurable="true">
+            <Label>Gateway</Label>
+            <Description>Gateway of the system</Description>
+        </Property>
+        <Property ovf:key="guestinfo.dns" ovf:type="string" ovf:userConfigurable="true">
+            <Label>DNS</Label>
+            <Description>DNS Servers, space separated</Description>
+        </Property>
+        <Property ovf:key="guestinfo.domain" ovf:type="string" ovf:userConfigurable="true">
+            <Label>DNS Domain</Label>
+            <Description>DNS Domain</Description>
+        </Property>
+        <Category>Credentials</Category>
+        <Property ovf:key="guestinfo.root_password" ovf:password="true" ovf:type="string" ovf:userConfigurable="true" ovf:value="">
+            <Label>Root Password</Label>
+            <Description>Password to login in as root. Please use a secure password</Description>
+        </Property>
+        <Category>Minecraft Configuration</Category>
+        <Property ovf:key="guestinfo.minecraft.version" ovf:type="string" ovf:userConfigurable="true" ovf:value="Latest">
+            <Label>Version</Label>
+            <Description>Minecraft Server Version to Install</Description>
+        </Property>
+        <Property ovf:key="guestinfo.minecraft.serverport" ovf:type="string" ovf:userConfigurable="true" ovf:value="25565">
+            <Label>Server Port</Label>
+            <Description>Minecraft Server Port</Description>
+        </Property>
+        <Property ovf:key="guestinfo.minecraft.enablercon" ovf:type="boolean" ovf:userConfigurable="true" ovf:value="true">
+            <Label>RCON</Label>
+            <Description>Enable RCON</Description>
+        </Property>
+        <Property ovf:key="guestinfo.minecraft.rconport" ovf:type="string" ovf:userConfigurable="true" ovf:value="25575">
+            <Label>RCON Port</Label>
+            <Description>Minecraft Server RCON Port</Description>
+        </Property>
+        <Property ovf:key="guestinfo.minecraft.rconpassword" ovf:password="true" ovf:type="string" ovf:userConfigurable="true" ovf:value="false">
+            <Label>RCON Password</Label>
+            <Description>RCON Password</Description>
+        </Property>
+        <Category>zDebug</Category>
+        <Property ovf:key="guestinfo.debug" ovf:type="boolean" ovf:userConfigurable="true" ovf:value="false">
+            <Label>Debugging</Label>
+            <Description>Enable Debugging</Description>
+        </Property>
+    </ProductSection>
