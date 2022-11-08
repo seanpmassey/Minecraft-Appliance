@@ -15,7 +15,7 @@ NoNewPrivileges=true
 ReadWriteDirectories=/opt/Minecraft
 WorkingDirectory=/opt/Minecraft/bin
 ExecStart=/usr/bin/java -Xmx1536M -Xms512M -jar server.jar nogui
-ExecStop=/opt/Minecraft/tools/mcrcon/mcrcon -H 127.0.0.1 -P RCONPORT -p RCONPASSWORD s$
+ExecStop=/opt/Minecraft/tools/mcrcon/mcrcon -H 127.0.0.1 -P RCONPORT -p RCONPASSWORD -w 5 "say Server is going down for maintenance.  Please Discconnect." save-all stop ; sleep 5
 
 [Install]
 WantedBy=multi-user.target
